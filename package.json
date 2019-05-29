@@ -2,9 +2,10 @@
   "name": "qbc-website",
   "private": true,
   "description": "The Gatsby package for generating Queensway Baptist Church's website",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Zak Thompson <zak@thisfireinside.com>",
   "dependencies": {
+    "express": "^4.17.1",
     "gatsby": "^2.3.5",
     "gatsby-background-image": "^0.3.6",
     "gatsby-image": "^2.0.37",
@@ -33,7 +34,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
-    "start": "npm run develop",
+    "start": "node server/index.js",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
   }
