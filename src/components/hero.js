@@ -32,7 +32,7 @@ const Hero = ({ overlayColor }) => (
           >
             <h1>Baptist Church</h1>
           </SkewedBackground>
-          <div className={styles.serviceTime}>Sunday Service | 11:00am</div>
+          <div className={styles.serviceTime}>Sunday Service | 10:30am</div>
         </div>
       </BgImg>
     )}

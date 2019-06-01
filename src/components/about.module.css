@@ -42,3 +42,20 @@
 .register:hover {
   background-color: #FFAD5D;
 }
+
+@media only screen and (max-width: 1024px) {
+  .wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about {
+    width: 100%;
+    padding: 40px 20px;
+  }
+
+  .image {
+    width: 100%;
+    height: 700px;
+  }
+}

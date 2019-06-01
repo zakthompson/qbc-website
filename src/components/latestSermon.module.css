@@ -34,7 +34,7 @@
 }
 
 .title {
-  width: 40%;
+  width: 60%;
 }
 
 .info-text {
@@ -43,4 +43,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+@media only screen and (max-width: 1024px) {
+  .section {
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 40px 30px;
+  }
+
+  .video-wrap {
+    width: 80%;
+  }
+
+  .sermon-info {
+    width: 100%;
+    padding: 0 15px 20px 15px;
+  }
+
+  .title {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section {
+    padding: 20px 15px;
+  }
+
+  .video-wrap {
+    width: 98%;
+  }
 }

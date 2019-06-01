@@ -39,7 +39,7 @@ const About = () => (
               href="https://docs.google.com/forms/d/e/1FAIpQLSfSgBXFGP8Fc6ziTEyaVWt1dfvSF2Vs-Cq2G1QW38tljwYnVg/viewform?usp=sf_link"
               className={styles.register}
             >
-              Click here to register
+              Register Here
             </a>
           </BgImg>
         </div>
