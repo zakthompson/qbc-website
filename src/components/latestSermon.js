@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player/lib/players/YouTube';
-import { StaticQuery, graphql } from 'gatsby';
+import { StaticQuery, graphql, Link } from 'gatsby';
 import SkewedBackground from './skewedBackground';
 import styles from './latestSermon.module.css';
 
@@ -50,6 +50,9 @@ const LatestSermon = () => (
               <h3>{latestSermon.title}</h3>
               <h4>{`${latestSermon.context} | ${latestSermon.speaker}`}</h4>
             </div>
+            <Link className="button primary small" to="/sermons">
+              Past Sermons
+            </Link>
           </div>
         </section>
       );

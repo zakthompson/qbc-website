@@ -1,0 +1,76 @@
+.sermon {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  margin: 0 60px;
+  padding: 80px 0;
+  border-bottom: 1px solid #555;
+}
+
+.sermon:last-child {
+  border-bottom: none;
+}
+
+.video-wrap {
+  position: relative;
+  width: 40%;
+}
+
+.force-aspect-ratio {
+  padding-bottom: 56.25%;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.sermon-info {
+  text-align: center;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 20px;
+}
+
+.info-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1024px) {
+  .sermon {
+    flex-direction: column;
+    align-items: center;
+    margin: 0 30px;
+    padding: 40px 0;
+  }
+
+  .video-wrap {
+    width: 80%;
+  }
+
+  .sermon-info {
+    width: 100%;
+    padding: 20px 15px 0 15px;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .sermon {
+    margin: 0 15px;
+    padding: 20px 0;
+  }
+
+  .video-wrap {
+    width: 98%;
+  }
+}

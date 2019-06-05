@@ -9,18 +9,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Meta from './meta';
 import Header from './header';
+import Contact from '../components/contact';
 
 import './layout.css';
 
-const Layout = ({ children }) => (
-  <>
-    <Meta />
-    <Header />
-    <div>
-      {children}
-    </div>
-  </>
-)
+const Layout = ({ pathName, children }) => {
+  const isHome = pathName !== '/';
+
+  return (
+    <>
+      <Meta />
+      <Header isHome={isHome} />
+      <div>
+        {children}
+      </div>
+      <Contact />
+    </>
+  );
+}
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
