@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from 'prop-types';
 import ReactPlayer from 'react-player/lib/players/YouTube';
-import SkewedBackground from '../components/skewedBackground';
 import styles from './sermon.module.css';
 
 const Sermon = ({ url, title, context, speaker }) => (

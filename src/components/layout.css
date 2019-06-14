@@ -69,6 +69,27 @@ em {
   margin-top: 20px;
   font-family: 'Montserrat', sans-serif;
 }
+.fa {
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+  font-size: 3rem !important;
+  margin-top: 0.5rem;
+  width: 5rem;
+}
+.fa:hover {
+  opacity: 0.9;
+}
+.fa-instagram {
+  background: #d6249f;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+}
+
+.fa-facebook {
+  background: #2b4170;
+  background: linear-gradient(to bottom, #3b5998, #2b4170);
+}
 
 
 @media only screen and (max-width: 1024px) {

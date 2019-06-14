@@ -7,7 +7,7 @@ import Sermon from '../components/sermon';
 
 const SermonsPage = ({ data, location }) => {
   return (
-    <Layout pathName={location.pathName}>
+    <Layout title="Sermons" pathName={location.pathName}>
       <SermonsHero overlayColor="rgba(80, 85, 90, 0.75)" />
       {data.allDirectusSermon.edges.map(sermon => (
         <Sermon

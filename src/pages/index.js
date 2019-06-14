@@ -5,7 +5,7 @@ import LatestSermon from '../components/latestSermon';
 import About from '../components/about';
 
 const IndexPage = ({ location }) => (
-  <Layout pathName={location.pathName}>
+  <Layout title="Home" pathName={location.pathName}>
     <Hero overlayColor="rgba(80, 85, 90, 0.75)" />
     <LatestSermon />
     <About />

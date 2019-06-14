@@ -13,12 +13,12 @@ import Contact from '../components/contact';
 
 import './layout.css';
 
-const Layout = ({ pathName, children }) => {
+const Layout = ({ title, pathName, children }) => {
   const isHome = pathName !== '/';
 
   return (
     <>
-      <Meta />
+      <Meta title={title} />
       <Header isHome={isHome} />
       <div>
         {children}
@@ -30,6 +30,7 @@ const Layout = ({ pathName, children }) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 export default Layout
