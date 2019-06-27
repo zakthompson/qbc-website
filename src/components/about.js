@@ -26,20 +26,20 @@ const About = () => (
                 color="#FF8C1B"
                 offset={-30}
               >
-                <h2>Summer Camp</h2>
+                <h2>Our Summer Camp is Fully Booked!</h2>
               </SkewedBackground>
               <SkewedBackground
               color="#FFAD5D"
                 offset={30}
               >
-                <h2>2019</h2>
+                <h2>You Can Join the Wait List Below</h2>
               </SkewedBackground>
             </div>
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSfSgBXFGP8Fc6ziTEyaVWt1dfvSF2Vs-Cq2G1QW38tljwYnVg/viewform?usp=sf_link"
               className={styles.register}
             >
-              Register Here
+              Join the Wait List
             </a>
           </BgImg>
         </div>
