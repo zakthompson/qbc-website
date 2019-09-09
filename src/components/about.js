@@ -1,67 +1,54 @@
-import React from 'react';
-import BgImg from 'gatsby-background-image';
-import { StaticQuery, graphql } from 'gatsby';
-import SkewedBackground from './skewedBackground';
-import styles from './about.module.css';
+import React from "react"
+import BgImg from "gatsby-background-image"
+import { StaticQuery, graphql } from "gatsby"
+import SkewedBackground from "./skewedBackground"
+import styles from "./about.module.css"
 
 const About = () => (
   <StaticQuery
     query={query}
-    render={data => (
-      <section className={styles.wrap}>
-        <div className={styles.about}>
-          <SkewedBackground color="#222">
-            <h2>{data.directusPastorsMessage.headline}</h2>
-          </SkewedBackground>
-          <p>{data.directusPastorsMessage.text}</p>
-        </div>
-        <div className={styles.image}>
-          <BgImg
-            className={styles.vbsWrap}
-            Tag="div"
-            fluid={data.image.childImageSharp.fluid}
-          >
-            <div className={styles.campHeader}>
-              <SkewedBackground
-                color="#FF8C1B"
-                offset={-30}
-              >
-                <h2>Our Summer Camp is Fully Booked!</h2>
-              </SkewedBackground>
-              <SkewedBackground
-              color="#FFAD5D"
-                offset={30}
-              >
-                <h2>You Can Join the Wait List Below</h2>
-              </SkewedBackground>
-            </div>
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSfSgBXFGP8Fc6ziTEyaVWt1dfvSF2Vs-Cq2G1QW38tljwYnVg/viewform?usp=sf_link"
-              className={styles.register}
-            >
-              Join the Wait List
-            </a>
-          </BgImg>
-        </div>
-      </section>
-    )}
+    render={data => {
+      const text = data.directusPastorsMessage.text.split("\n").join("<br />")
+      return (
+        <section className={styles.wrap}>
+          <div className={styles.about}>
+            <SkewedBackground color="#222">
+              <h2>{data.directusPastorsMessage.headline}</h2>
+            </SkewedBackground>
+            <div
+              className={styles.aboutText}
+              dangerouslySetInnerHTML={{
+                __html: text,
+              }}
+            />
+          </div>
+          <div className={styles.image}>
+            <BgImg
+              className={styles.imageWrap}
+              Tag="div"
+              fluid={data.image.childImageSharp.fluid}
+            />
+          </div>
+        </section>
+      )
+    }}
   />
 )
 
 export const query = graphql`
   query {
     directusPastorsMessage {
-      headline,
+      headline
       text
     }
-    image: file(relativePath: { eq: "vbs.png" }) {
+    image: file(relativePath: { eq: "sanctuary.jpg" }) {
       childImageSharp {
         fluid {
-          ...GatsbyImageSharpFluid,
-        },
-      },
-    },
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
   }
-`;
+`
 
-export default About;
+export default About

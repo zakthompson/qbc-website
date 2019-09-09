@@ -1,8 +1,8 @@
-import React from 'react';
-import BgImg from 'gatsby-background-image';
-import { StaticQuery, graphql } from 'gatsby';
-import SkewedBackground from './skewedBackground';
-import styles from './hero.module.css';
+import React from "react"
+import BgImg from "gatsby-background-image"
+import { StaticQuery, graphql } from "gatsby"
+import SkewedBackground from "./skewedBackground"
+import styles from "./hero.module.css"
 
 const Hero = ({ overlayColor }) => (
   <StaticQuery
@@ -20,19 +20,13 @@ const Hero = ({ overlayColor }) => (
           }}
         />
         <div className={styles.titleWrap}>
-          <SkewedBackground
-            color="#FF8C1B"
-            offset={-75}
-          >
+          <SkewedBackground color="#FF8C1B" offset={-75}>
             <h1>Queensway</h1>
           </SkewedBackground>
-          <SkewedBackground
-            color="#FFAD5D"
-            offset={75}
-          >
+          <SkewedBackground color="#FFAD5D" offset={75}>
             <h1>Baptist Church</h1>
           </SkewedBackground>
-          <div className={styles.serviceTime}>Sunday Service | 10:30am</div>
+          <div className={styles.serviceTime}>Sunday Service | 11:00am</div>
         </div>
       </BgImg>
     )}
@@ -44,11 +38,11 @@ export const query = graphql`
     heroImage: file(relativePath: { eq: "hero.jpg" }) {
       childImageSharp {
         fluid {
-          ...GatsbyImageSharpFluid,
-        },
-      },
-    },
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
   }
-`;
+`
 
-export default Hero;
+export default Hero
