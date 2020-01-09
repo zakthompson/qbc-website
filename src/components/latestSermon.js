@@ -1,15 +1,14 @@
-import React from 'react';
-import ReactPlayer from 'react-player/lib/players/YouTube';
-import { StaticQuery, graphql, Link } from 'gatsby';
-import SkewedBackground from './skewedBackground';
-import styles from './latestSermon.module.css';
+import React from "react"
+import ReactPlayer from "react-player/lib/players/YouTube"
+import { StaticQuery, graphql, Link } from "gatsby"
+import SkewedBackground from "./skewedBackground"
+import styles from "./latestSermon.module.css"
 
 const LatestSermon = () => (
   <StaticQuery
     query={query}
     render={data => {
-      const sermons = data.allDirectusSermon.edges.map(e => e.node);
-      const latestSermon = sermons.sort((a, b) => ( a.date < b.date ))[0];
+      const latestSermon = data.allDirectusSermon.edges.map(e => e.node)[0]
       return (
         <section className={styles.section}>
           <div className={styles.videoWrap}>
@@ -33,16 +32,10 @@ const LatestSermon = () => (
           </div>
           <div className={styles.sermonInfo}>
             <div className={styles.title}>
-              <SkewedBackground
-                color="#222"
-                offset={-30}
-              >
+              <SkewedBackground color="#222" offset={-30}>
                 <h2>Latest</h2>
               </SkewedBackground>
-              <SkewedBackground
-                color="#555"
-                offset={30}
-              >
+              <SkewedBackground color="#555" offset={30}>
                 <h2>Sermon</h2>
               </SkewedBackground>
             </div>
@@ -55,26 +48,26 @@ const LatestSermon = () => (
             </Link>
           </div>
         </section>
-      );
+      )
     }}
   />
 )
 
 export const query = graphql`
   query {
-    allDirectusSermon {
+    allDirectusSermon(limit: 1, sort: { fields: date, order: DESC }) {
       edges {
         node {
-          id,
-          title,
-          speaker,
-          context,
-          url,
-          date,
+          id
+          title
+          speaker
+          context
+          url
+          date
         }
       }
     }
   }
-`;
+`
 
-export default LatestSermon;
+export default LatestSermon

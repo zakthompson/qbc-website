@@ -28,10 +28,10 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-source-directus7`,
+      resolve: `gatsby-source-directus-cms`,
       options: {
         url: `http://api.queenswaybaptist.com`,
-        project: '_',
+        project: "_",
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
