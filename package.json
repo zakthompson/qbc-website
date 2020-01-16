@@ -8,7 +8,6 @@
     "node": "<13"
   },
   "dependencies": {
-    "beautiful-react-hooks": "^0.18.1",
     "express": "^4.17.1",
     "gatsby": "^2.18.20",
     "gatsby-background-image": "^0.9.12",

@@ -31,6 +31,13 @@
   justify-content: space-between;
   text-align: center;
   padding: 25px;
+  background-size: contain !important;
+  background-position: right center !important;
+}
+
+.image-wrap:before, .image-wrap:after {
+  background-size: contain !important;
+  background-position: right center !important;
 }
 
 .register {
@@ -60,5 +67,13 @@
   .image {
     width: 100%;
     height: 700px;
+  }
+
+  .image-wrap {
+    background-position: center bottom !important;
+  }
+
+  .image-wrap:before, .image-wrap:after {
+    background-position: center bottom !important;
   }
 }
