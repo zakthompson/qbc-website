@@ -33,20 +33,28 @@ const Header = ({ isHome }) => {
   return (<StaticQuery
     query={query}
     render={data => (
-      <header className={`${styles.header}${scrolled ? ` ${styles.scrolled}` : ''}`}>
-        <Link to="/">
-          <Img
-            fixed={data.logoImage.childImageSharp.fixed}
-          />
-        </Link>
-        {(isHome || scrolled) && <div className={styles.name}>
-          <h6>Queensway</h6>
-          <h6>Baptist Church</h6>
-        </div>}
-        <div className={styles.fill} />
-        <Link className={styles.link} to="/sermons">Sermons</Link>
-        <div className={styles.visit} onClick={scrollDown}>Plan a Visit</div>
-      </header>
+      <>
+        <header className={`${styles.header}${scrolled ? ` ${styles.scrolled}` : ''}`}>
+          <div className={styles.covid}>
+            <div>Read our latest updates on re-opening!</div>
+            <Link className={`button primary small ${styles.covidButton}`} to="/covid">Click Here</Link>
+          </div>
+          <div className={styles.actualHeader}>
+            <Link to="/">
+              <Img
+                fixed={data.logoImage.childImageSharp.fixed}
+              />
+            </Link>
+            {(isHome || scrolled) && <div className={styles.name}>
+              <h6>Queensway</h6>
+              <h6>Baptist Church</h6>
+            </div>}
+            <div className={styles.fill} />
+            <Link className={styles.link} to="/sermons">Sermons</Link>
+            <div className={styles.visit} onClick={scrollDown}>Plan a Visit</div>
+          </div>
+        </header>
+      </>
     )}
   />);
 }

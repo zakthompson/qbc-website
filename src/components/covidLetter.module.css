@@ -1,0 +1,29 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #EFEFEF;
+  align-items: stretch;
+  min-height: 750px;
+  padding: 40px 60px;
+}
+
+.letter {
+  max-width: 100%;
+  width: 750px;
+}
+
+.letter li {
+  margin-top: 10px;
+}
+
+.letter a {
+  display: block;
+  margin: 40px 120px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .letter a {
+    margin: 0;
+  }
+}
