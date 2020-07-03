@@ -5,27 +5,27 @@
  * See: https://www.gatsbyjs.org/docs/static-query/
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import Meta from './meta';
-import Header from './header';
-import Contact from '../components/contact';
+import React from "react"
+import PropTypes from "prop-types"
+import Meta from "./meta"
+import Header from "./header"
+import Contact from "../components/contact"
 
-import './layout.css';
+import "./layout.css"
 
 const Layout = ({ title, pathName, children }) => {
-  const isHome = pathName !== '/';
+  const isHome = pathName !== "/"
+  const isKids = pathName === "/kids"
+  console.log(pathName)
 
   return (
     <>
       <Meta title={title} />
-      <Header isHome={isHome} />
-      <div>
-        {children}
-      </div>
+      <Header isHome={isHome} isKids={isKids} />
+      <div>{children}</div>
       <Contact />
     </>
-  );
+  )
 }
 
 Layout.propTypes = {

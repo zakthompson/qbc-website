@@ -78,8 +78,14 @@ function Meta({ description, lang, meta, keywords, title }) {
         )
         .concat(meta)}
     >
-      <link href="https://fonts.googleapis.com/css?family=Lato|Montserrat:700,700i" rel="stylesheet" />
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,700;1,700&family=Pacifico&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      />
     </Helmet>
   )
 }
@@ -99,4 +105,4 @@ Meta.propTypes = {
   title: PropTypes.string.isRequired,
 }
 
-export default Meta;
+export default Meta
