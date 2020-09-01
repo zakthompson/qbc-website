@@ -2,7 +2,7 @@
   "name": "qbc-website",
   "private": true,
   "description": "The Gatsby package for generating Queensway Baptist Church's website",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "author": "Zak Thompson <zak@thisfireinside.com>",
   "engines": {
     "node": "<13"
