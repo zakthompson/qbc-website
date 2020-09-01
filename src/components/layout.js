@@ -16,7 +16,6 @@ import "./layout.css"
 const Layout = ({ title, pathName, children }) => {
   const isHome = pathName !== "/"
   const isKids = pathName === "/kids"
-  console.log(pathName)
 
   return (
     <>

@@ -5,7 +5,6 @@ import Img from "gatsby-image"
 import styles from "./header.module.css"
 
 const Header = ({ isHome, isKids }) => {
-  console.log(isKids)
   const [scrolled, setScrolled] = useState(false)
 
   function onScroll() {
