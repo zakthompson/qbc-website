@@ -1,25 +1,53 @@
 .wrap {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: #EFEFEF;
-  align-items: stretch;
   min-height: 750px;
   padding: 40px 60px;
 }
 
+.wrap * {
+  color: black;
+}
+
+.wrap h1, .wrap h4 {
+  text-align: center;
+}
+
+.wrap h4 {
+  max-width: 600px;
+}
+
+.wrap h1 {
+  color: white;
+}
+
 .letter {
+  margin-top: 4rem;
   max-width: 100%;
-  width: 750px;
+  width: 650px;
+}
+
+.letter p {
+  margin-top: 4rem;
 }
 
 .letter li {
-  margin-top: 10px;
+  margin-top: 1rem;
 }
 
-.letter a {
-  display: block;
-  margin: 40px 120px;
+.letter a:hover {
+  text-decoration: underline;
+}
+
+.header {
+  margin-top: 0.5rem;
+}
+
+.buttonWrap {
+  text-align: center;
+  margin-top: 4rem;
 }
 
 @media only screen and (max-width: 1024px) {

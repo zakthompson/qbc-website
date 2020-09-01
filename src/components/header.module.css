@@ -1,5 +1,5 @@
 .covid {
-  background-color: red;
+  background-color: limegreen;
   color: white;
   font-weight: 600;
   font-size: 20px;
@@ -68,7 +68,7 @@
 
 .covidButton {
   margin-left: 40px;
-  background-color: darkred !important;
+  background-color: darkgreen !important;
 }
 
 @media only screen and (max-width: 640px) {
@@ -83,5 +83,13 @@
   .covidButton {
     margin-left: 5px;
     min-width: 145px !important;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .name {
+    display: none;
   }
 }

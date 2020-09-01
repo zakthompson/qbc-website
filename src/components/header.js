@@ -42,12 +42,12 @@ const Header = ({ isHome, isKids }) => {
             }`}
           >
             <div className={styles.covid}>
-              <div>Read our latest updates on re-opening!</div>
+              <div>We're opening!</div>
               <Link
                 className={`button primary small ${styles.covidButton}`}
                 to="/covid"
               >
-                Click Here
+                Click Here For More Info
               </Link>
             </div>
             <div className={styles.actualHeader}>
@@ -68,7 +68,8 @@ const Header = ({ isHome, isKids }) => {
                 Sermons
               </Link>
               <div className={styles.visit} onClick={scrollDown}>
-                Plan a Visit
+                <span className={styles.desktopOnly}>Plan a </span>
+                Visit
               </div>
             </div>
           </header>
