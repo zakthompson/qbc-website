@@ -40,15 +40,6 @@ const Header = ({ isHome, isKids }) => {
               scrolled || isKids ? ` ${styles.scrolled}` : ""
             }`}
           >
-            <div className={styles.covid}>
-              <div>We're opening!</div>
-              <Link
-                className={`button primary small ${styles.covidButton}`}
-                to="/covid"
-              >
-                Click Here For More Info
-              </Link>
-            </div>
             <div className={styles.actualHeader}>
               <Link to="/">
                 <Img fixed={data.logoImage.childImageSharp.fixed} />
