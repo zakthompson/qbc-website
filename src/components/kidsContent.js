@@ -87,46 +87,6 @@ const KidsContent = () => (
         -Romans 12:3
       </div>
     </div>
-
-    <section className={styles.covidContainer}>
-      <h2>Covid Updates</h2>
-      <p>Hi parents!</p>
-      <p>
-        For the past few months, Kingdom Kids has been doing very simple online
-        check-ins with a craft/activity followed by a bedtime story for Busy
-        Bees. This was meant as a temporary set-up as we waited for the doors of
-        the church to re-open. However, since Kingdom Kids will still not be
-        able to meet in-person even as QBC prepares to open its doors again,
-        Kingdom Kids will be following an online-friendly curriculum to ensure
-        your kids will be getting fed spiritually.
-      </p>
-      <p>
-        <strong>How will Kingdom Kids online work?</strong>
-        Our curriculum supports a "one-room" classroom of all ages. During each
-        Zoom meeting, we'll read through different stories in the Bible
-        supported by an object lesson, play a low-energy game (with
-        minimal-to-no supplies), memorize a Bible verse together, have prayer
-        and an read an occasional bedtime story to wrap up the night. Each
-        lesson will be about 50 minutes long. We will continue to meet on
-        Thursdays at 6pm.
-      </p>
-      <p>
-        <strong>Why is it important for Kingdom Kids to meet online?</strong>
-        Since QBC is taking one step at a time to ensure the process of opening
-        is safe, it's unclear when programs will be able to run normally again.
-        Although we had a few months of low-key Zoom meetings, it's important we
-        start ensuring our kids are being fed spiritually as well. Kingdom Kids
-        and Switch online helps your kids stay in touch with other kids at
-        church, make the transition smoother when we once again meet in-person,
-        and ultimately keeps your kids learning about God and the Bible through
-        lessons catered for their age group. I would love to partner with you to
-        help your kids adapt to this new normal.
-      </p>
-      <p>
-        For more information, please contact Becky Thompson:{" "}
-        <a href="mailto:beckyostil@gmail.com">beckyostil@gmail.com</a>
-      </p>
-    </section>
   </section>
 )
 
