@@ -31,7 +31,7 @@ const KidsContent = () => (
               target="_blank"
               rel="noreferrer noopener"
               className={`button primary small ${styles.register}`}
-              href="https://forms.gle/PtYDScj9konGxlww6"
+              href="https://forms.gle/VT7SjCaU1nCNwA7i7"
             >
               Click here to register
             </a>
