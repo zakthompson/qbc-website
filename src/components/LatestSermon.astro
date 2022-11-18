@@ -3,7 +3,7 @@ import { YouTube } from "@astro-community/astro-embed-youtube";
 import SkewedBackground from "./SkewedBackground.astro";
 
 const res = await fetch(
-  `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/sermons?limit=1&sort=-date`
+  `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/sermons?limit=1&sort=-date&filter[status][_eq]=published`
 );
 const sermon = await res.json();
 const { title, context, speaker, url } = sermon.data[0];

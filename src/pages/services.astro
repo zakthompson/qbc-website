@@ -11,7 +11,7 @@ interface Sermon {
 }
 
 const res = await fetch(
-  `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/sermons?&sort=-date`
+  `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/sermons?&sort=-date&filter[status][_eq]=published`
 );
 const json = await res.json();
 const sermons: Sermon[] = json.data;
