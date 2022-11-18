@@ -1,0 +1,143 @@
+---
+import { Image } from "@astrojs/image/components";
+import logo from "../images/logo.png";
+
+interface Props {
+  isHome: boolean;
+  isKids: boolean;
+}
+
+const { isHome, isKids } = Astro.props;
+---
+
+<style>
+  .header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    color: #fff;
+    z-index: 3;
+    background-color: transparent;
+    transition: background-color 0.5s, color 0.5s;
+    padding-top: 10px;
+  }
+
+  .actual-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-right: 25px;
+  }
+
+  .header a {
+    display: flex;
+    align-items: center;
+  }
+
+  header.scrolled {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.55);
+  }
+
+  .fill {
+    flex: 1;
+  }
+
+  #visit {
+    padding: 10px 20px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    transition: border 0.5s;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .scrolled #visit {
+    border: 2px solid #000;
+    box-shadow: none;
+  }
+
+  .name {
+    margin-left: -20px;
+    text-transform: uppercase;
+  }
+
+  .link {
+    margin-right: 20px;
+  }
+
+  @media only screen and (max-width: 640px) {
+    .link {
+      display: none;
+    }
+
+    .visit {
+      display: none;
+    }
+
+    .desktop-only {
+      display: none;
+    }
+
+    .name {
+      display: none;
+    }
+  }
+</style>
+
+<header class={`header ${isKids ? ` scrolled` : ""}`}>
+  <div class="actual-header">
+    <a href="/">
+      <Image width="80px" aspectRatio={1} alt="Logo" src={logo} />
+    </a>
+    {
+      isHome && (
+        <div class="name">
+          <h6>Queensway</h6>
+          <h6>Baptist Church</h6>
+        </div>
+      )
+    }
+    <div class="fill"></div>
+    <a class="link" href="/kids">Kingdom Kids</a>
+    <a class="link" href="/services">Service Archive</a>
+    <div id="visit">
+      <span class="desktop-only">Plan a</span>
+      Visit
+    </div>
+  </div>
+</header>
+<script define:vars={{ isKids }}>
+  function onScroll() {
+    let scrolled = false;
+    const headerEl = document.getElementsByClassName("header")[0];
+    const visitEl = document.getElementById("visit");
+    if (!scrolled && !isKids && window.scrollY >= 200) {
+      headerEl.classList.add("scrolled");
+      visitEl.classList.add("scrolled");
+      scrolled = true;
+    } else if (!isKids && window.scrollY < 200) {
+      headerEl.classList.remove("scrolled");
+      visitEl.classList.remove("scrolled");
+      scrolled = false;
+    }
+  }
+
+  window.addEventListener("scroll", onScroll);
+
+  function scrollDown() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+
+  const visitEl = document.getElementById("visit");
+  if (visitEl) {
+    visitEl.addEventListener("click", scrollDown);
+  }
+</script>

@@ -1,0 +1,191 @@
+---
+import "@fontsource/lato";
+import "@fontsource/lato/700.css";
+import "@fontsource/montserrat";
+import "@fontsource/montserrat/700.css";
+import "@fontsource/montserrat/700-italic.css";
+import "@fontsource/pacifico";
+import Header from "../components/Header.astro";
+import Contact from "../components/Contact.astro";
+
+export interface Props {
+  title: string;
+  pathname: string;
+}
+
+const { title, pathname } = Astro.props;
+
+const isHome = pathname !== "/";
+const isKids = pathname === "/kids";
+---
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    font-size: 10px;
+  }
+
+  body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smothing: grayscale;
+    font-family: "Lato", sans-serif;
+    font-size: 1.6rem;
+  }
+
+  a {
+    background-color: transparent;
+    color: inherit;
+    text-decoration: none;
+    -webkit-text-decoration-skip: objects;
+    font-weight: 700;
+  }
+
+  a:active,
+  a:hover,
+  a:visited {
+    color: inherit;
+    outline-width: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  h1 {
+    font-size: 4.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  h2 {
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  h3 {
+    font-size: 2.2rem;
+    text-transform: uppercase;
+  }
+
+  h4 {
+    font-size: 1.75rem;
+    color: #999;
+    font-family: "Lato", sans-serif;
+  }
+
+  h6 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 1.8rem;
+  }
+
+  em {
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 20px;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  .fa {
+    padding: 1rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+    font-size: 3rem !important;
+    margin-top: 0.5rem;
+    width: 5rem;
+  }
+
+  .fa:hover {
+    opacity: 0.9;
+  }
+
+  .fa-instagram {
+    background: #d6249f;
+    background: radial-gradient(
+      circle at 30% 107%,
+      #fdf497 0%,
+      #fdf497 5%,
+      #fd5949 45%,
+      #d6249f 60%,
+      #285aeb 90%
+    );
+  }
+
+  .fa-facebook {
+    background: #2b4170;
+    background: linear-gradient(to bottom, #3b5998, #2b4170);
+  }
+
+  .button {
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    padding: 5px 15px;
+  }
+
+  .button.primary {
+    color: #fff !important;
+    background-color: #222;
+  }
+
+  .button.primary:hover {
+    background-color: #555;
+  }
+
+  .button.small {
+    font-size: 1.8rem;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    h1 {
+      font-size: 2.6rem;
+    }
+    h2 {
+      font-size: 2.2rem;
+    }
+    h3 {
+      font-size: 1.6rem;
+    }
+    h4 {
+      font-size: 1.4rem;
+    }
+  }
+</style>
+
+<script src="https://kit.fontawesome.com/5569c73528.js" crossorigin="anonymous"
+></script>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header isHome={isHome} isKids={isKids} />
+    <main>
+      <slot />
+    </main>
+    <Contact />
+  </body>
+</html>

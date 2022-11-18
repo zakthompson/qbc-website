@@ -1,0 +1,59 @@
+---
+import SkewedBackground from "./SkewedBackground.astro";
+
+const res = await fetch(
+  `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/pastors_message?limit=1`
+);
+const pastorsMessage = await res.json();
+const { headline, text } = pastorsMessage.data;
+---
+
+<style>
+  .wrap {
+    display: flex;
+    background-color: #efefef;
+    align-items: stretch;
+    min-height: 750px;
+  }
+
+  .about {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px;
+  }
+
+  .about-text {
+    margin-top: 2rem;
+  }
+
+  .image {
+    width: 50%;
+    background-image: url("../images/sanctuary.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .image-wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: 25px;
+  }
+</style>
+
+<section class="wrap">
+  <div class="about">
+    <SkewedBackground color="#222">
+      <h2>{headline}</h2>
+    </SkewedBackground>
+    <div set:html={text} class="about-text" />
+  </div>
+  <div class="image"></div>
+</section>

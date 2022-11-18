@@ -1,0 +1,114 @@
+---
+import { YouTube } from "@astro-community/astro-embed-youtube";
+import SkewedBackground from "./SkewedBackground.astro";
+
+const res = await fetch(
+  `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/sermons?limit=1&sort=-date`
+);
+const sermon = await res.json();
+const { title, context, speaker, url } = sermon.data[0];
+const id = url.split("/").at(-1);
+---
+
+<style>
+  .section {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 80px 60px;
+  }
+
+  .video-wrap {
+    position: relative;
+    width: 40%;
+  }
+
+  .force-aspect-ratio {
+    padding-bottom: 56.25%;
+  }
+
+  .video {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-width: none;
+  }
+
+  .sermon-info {
+    text-align: center;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+  }
+
+  .title {
+    width: 60%;
+  }
+
+  .info-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .section {
+      flex-direction: column-reverse;
+      align-items: center;
+      padding: 40px 30px;
+    }
+
+    .video-wrap {
+      width: 80%;
+    }
+
+    .sermon-info {
+      width: 100%;
+      padding: 0 15px 20px 15px;
+    }
+
+    .title {
+      margin-bottom: 20px;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    .section {
+      padding: 20px 15px;
+    }
+
+    .video-wrap {
+      width: 98%;
+    }
+  }
+</style>
+
+<section class="section">
+  <div class="video-wrap">
+    <div class="force-aspect-ratio"></div>
+    <YouTube class="video" id={id} />
+  </div>
+  <div class="sermon-info">
+    <div class="title">
+      <SkewedBackground color="#222" offset={-30}>
+        <h2>Latest</h2>
+      </SkewedBackground>
+      <SkewedBackground color="#555" offset={30}>
+        <h2>Service</h2>
+      </SkewedBackground>
+    </div>
+    <div class="info-text">
+      <h3>{title}</h3>
+      <h4>{context} | {speaker}</h4>
+    </div>
+    <a class="button primary small" href="/services">Past Services</a>
+  </div>
+</section>

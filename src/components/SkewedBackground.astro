@@ -1,0 +1,62 @@
+---
+interface Props {
+  className?: string;
+  color: string;
+  offset?: number;
+}
+
+const { className, color, offset = 0 } = Astro.props;
+
+const marginLeft = `${offset}px`;
+const marginRight = `${offset < 0 ? Math.abs(offset) : `-${offset}`}px`;
+---
+
+<style define:vars={{ color, marginLeft, marginRight }}>
+  .wrapper {
+    position: relative;
+    padding: 3px 40px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 5px;
+    margin-left: var(--marginLeft);
+    margin-right: var(--marginRight);
+  }
+
+  .background {
+    background-color: var(--color);
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: skew(-25deg);
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .wrapper {
+      padding: 3px 20px;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    .wrapper {
+      margin-left: calc(0.25 * var(--marginLeft));
+      margin-right: calc(0.25 * var(--marginRight));
+    }
+  }
+</style>
+
+<div class:list={["wrapper", className]}>
+  <div class="content">
+    <slot />
+  </div>
+  <div class="background"></div>
+</div>

@@ -1,0 +1,71 @@
+---
+import { Picture } from "@astrojs/image/components";
+import crown from "../images/crown.png";
+---
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 350px;
+    background-color: #ebbb00;
+    padding-bottom: 45px;
+    box-shadow: 0px 2px 52px 0px rgba(0, 0, 0, 0.75);
+  }
+
+  .hero h1 {
+    font-size: 10rem;
+    color: #363436;
+    margin-right: 300px;
+  }
+
+  .crown {
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    right: 50%;
+    margin-left: 240px;
+    transform: rotate(16deg);
+  }
+
+  @media only screen and (max-width: 1110px) {
+    .hero {
+      padding-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: 6rem;
+      margin-right: 0;
+    }
+
+    .crown {
+      top: 195px;
+      transform: rotate(12deg);
+    }
+  }
+
+  @media only screen and (max-width: 460px) {
+    .hero h1 {
+      font-size: 4rem;
+    }
+
+    .crown {
+      top: 135px;
+    }
+  }
+</style>
+
+<section class="hero">
+  <h1>Kingdom Kids</h1>
+  <Picture
+    class="crown"
+    src={crown}
+    widths={[197, 394]}
+    aspectRatio={197 / 161}
+    sizes="(max-width: 1110px) 197px, (min-width: 1110px) 394px"
+    alt=""
+  />
+</section>

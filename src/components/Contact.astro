@@ -1,0 +1,103 @@
+---
+import SkewedBackground from "./SkewedBackground.astro";
+---
+
+<style>
+  .wrap {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    background-color: #222;
+    padding: 80px 0;
+    color: #fff;
+    min-height: 60vh;
+  }
+
+  .info {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .map-wrap {
+    position: relative;
+    width: 40%;
+  }
+
+  .map {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+  .social-link {
+      margin-left: 1rem;
+    }
+
+  .social-link:first-child {
+      margin-left: 0;
+    }
+
+  @media only screen and (max-width: 1024px) {
+      .wrap {
+          flex-direction: column;
+          align-items: center;
+          padding: 30px 0;
+        }
+
+      .info {
+          width: 100%;
+          margin-bottom: 40px;
+        }
+
+      .map-wrap {
+          width: 90%;
+          height: 300px;
+        }
+    }
+
+</style>
+
+<section class="wrap">
+  <div class="info">
+    <SkewedBackground color="#FF8C1B" offset={-25}>
+      <h2>Get in</h2>
+    </SkewedBackground>
+    <SkewedBackground color="#FFAD5D" offset={25}>
+      <h2>Touch</h2>
+    </SkewedBackground>
+    <em>Address:</em>
+    <div>950 Islington Avenue</div>
+    <div>Etobicoke, Ontario, Canada</div>
+    <div>M8Z 4P6</div>
+    <em>Phone Number:</em>
+    <div>(416) 251-6121</div>
+    <em>Regular Services:</em>
+    <div>Sunday | 11:00am</div>
+    <em>Follow Us:</em>
+    <div>
+      <a class="social-link" href="https://www.facebook.com/queenswaybaptist/">
+        <i class="fa fa-facebook"></i>
+      </a>
+      <a class="social-link" href="https://www.instagram.com/queenswaybaptist/">
+        <i class="fa fa-instagram"></i>
+      </a>
+    </div>
+  </div>
+  <div class="map-wrap">
+    <iframe
+      class="map"
+      width="100%"
+      height="100%"
+      title="map"
+      src="https://maps.google.com/maps?q=950%20islington%20avenue%2C%20etobocoke&t=&z=15&ie=UTF8&iwloc=&output=embed"
+      frameborder="0"
+      scrolling="no"
+      marginheight="0"
+      marginwidth="0"></iframe>
+  </div>
+</section>
