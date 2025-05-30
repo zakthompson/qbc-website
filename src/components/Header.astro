@@ -1,5 +1,5 @@
 ---
-import { Image } from "@astrojs/image/components";
+import { Image } from "astro:assets";
 import logo from "../images/logo.png";
 
 interface Props {
@@ -91,7 +91,7 @@ const { isHome, isKids } = Astro.props;
 <header class={`header ${isKids ? ` scrolled` : ""}`}>
   <div class="actual-header">
     <a href="/">
-      <Image width="80px" aspectRatio={1} alt="Logo" src={logo} />
+      <Image width={80} alt="Logo" src={logo} />
     </a>
     {
       isHome && (

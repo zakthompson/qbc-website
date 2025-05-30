@@ -1,5 +1,5 @@
 ---
-import { Picture } from "@astrojs/image/components";
+import { Picture } from "astro:assets";
 import crown from "../images/crown.png";
 ---
 
@@ -64,7 +64,6 @@ import crown from "../images/crown.png";
     class="crown"
     src={crown}
     widths={[197, 394]}
-    aspectRatio={197 / 161}
     sizes="(max-width: 1110px) 197px, (min-width: 1110px) 394px"
     alt=""
   />

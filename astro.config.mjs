@@ -1,18 +1,12 @@
-import { defineConfig } from "astro/config";
-import image from "@astrojs/image";
-import vercel from "@astrojs/vercel/serverless";
+import { defineConfig } from 'astro/config';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  integrations: [
-    image({
-      serviceEntryPoint: "@astrojs/image/sharp",
-    }),
-  ],
   vite: {
     ssr: {
-      noExternal: ["@astro-community/astro-embed-youtube"],
+      noExternal: ['@astro-community/astro-embed-youtube'],
     },
   },
-  output: "server",
+  output: 'server',
   adapter: vercel(),
 });
