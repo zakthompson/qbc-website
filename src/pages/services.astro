@@ -8,6 +8,7 @@ interface Sermon {
   title: string;
   context: string;
   speaker: string;
+  date: string;
 }
 
 const res = await fetch(
@@ -26,6 +27,7 @@ const sermons: Sermon[] = json.data;
         id={sermon.url.split("/").at(-1) ?? ''}
         context={sermon.context}
         speaker={sermon.speaker}
+        date={sermon.date}
       />
     ))
   }

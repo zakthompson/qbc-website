@@ -46,6 +46,21 @@ const { headline, text } = pastorsMessage.data;
     text-align: center;
     padding: 25px;
   }
+  
+  @media only screen and (max-width: 1024px) {
+    .wrap {
+      flex-direction: column-reverse;
+    }
+
+    .about {
+      width: 100%;
+    }
+
+    .image {
+      width: 100%;
+      height: 50vh;
+    }
+  }
 </style>
 
 <section class="wrap">
