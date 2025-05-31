@@ -25,15 +25,16 @@ import crown from "../images/crown.png";
   .crown {
     position: absolute;
     top: 75px;
-    left: 50%;
-    right: 50%;
-    margin-left: 240px;
-    transform: rotate(16deg);
+    right: 0;
+    transform: rorate(16deg);
+    width: 394px; 
+    height: auto;
   }
 
   @media only screen and (max-width: 1110px) {
     .hero {
       padding-bottom: 25px;
+      overflow: hidden;
     }
 
     .hero h1 {
@@ -42,8 +43,11 @@ import crown from "../images/crown.png";
     }
 
     .crown {
+      margin-left: 0;
       top: 195px;
       transform: rotate(12deg);
+      width: 197px;
+      height: auto;
     }
   }
 
@@ -64,7 +68,6 @@ import crown from "../images/crown.png";
     class="crown"
     src={crown}
     widths={[197, 394]}
-    sizes="(max-width: 1110px) 197px, (min-width: 1110px) 394px"
     alt=""
   />
 </section>
