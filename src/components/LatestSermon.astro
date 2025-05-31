@@ -2,11 +2,21 @@
 import { YouTube } from "@astro-community/astro-embed-youtube";
 import SkewedBackground from "./SkewedBackground.astro";
 
+const dateOptions: object = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+
 const res = await fetch(
   `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/sermons?limit=1&sort=-date&filter[status][_eq]=published`
 );
 const sermon = await res.json();
-const { title, context, speaker, url } = sermon.data[0];
+const { title, context, speaker, url, date } = sermon.data[0];
+const formattedDate = new Date(date).toLocaleDateString(
+  "en-US",
+  dateOptions
+);
 const id = url.split("/").at(-1);
 ---
 
@@ -26,6 +36,10 @@ const id = url.split("/").at(-1);
 
   .force-aspect-ratio {
     padding-bottom: 56.25%;
+  }
+
+  .button {
+    margin-top: 10px;
   }
 
   .video {
@@ -57,17 +71,20 @@ const id = url.split("/").at(-1);
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 20px 0;
+    line-height: 1.4;
   }
 
   @media only screen and (max-width: 1024px) {
     .section {
-      flex-direction: column-reverse;
+      flex-direction: column;
       align-items: center;
       padding: 40px 30px;
     }
 
     .video-wrap {
       width: 80%;
+      margin-bottom: 40px;
     }
 
     .sermon-info {
@@ -106,6 +123,7 @@ const id = url.split("/").at(-1);
       </SkewedBackground>
     </div>
     <div class="info-text">
+      <h5>{formattedDate}</h5>
       <h3>{title}</h3>
       <h4>{context} | {speaker}</h4>
     </div>

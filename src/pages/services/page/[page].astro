@@ -1,0 +1,57 @@
+---
+export const prerender = false;
+
+import Layout from "../../../layouts/Layout.astro";
+import SermonsHero from "../../../components/SermonsHero.astro";
+import Sermon from "../../../components/Sermon.astro";
+
+interface Sermon {
+  url: string;
+  title: string;
+  context: string;
+  speaker: string;
+  date: string;
+}
+
+const PAGE_SIZE = 20;
+
+const { page } = Astro.params;
+const currentPage = parseInt(page || '') || 1;
+
+const res = await fetch(
+  `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/sermons?limit=20&offset=${(currentPage - 1) * PAGE_SIZE}&sort=-date&filter[status][_eq]=published&meta=total_count`
+);
+const json = await res.json();
+const sermons: Sermon[] = json.data;
+const totalCount = json.meta.total_count;
+const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+---
+
+<style>
+  .nav {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+</style>
+
+<Layout title="Service Archive | Queensway Baptist Church" pathname="/services">
+  <SermonsHero overlayColor="rgba(80, 85, 90, 0.75)" />
+  {
+    sermons.map((sermon: Sermon) => (
+      <Sermon
+        title={sermon.title}
+        id={sermon.url.split("/").at(-1) ?? ''}
+        context={sermon.context}
+        speaker={sermon.speaker}
+        date={sermon.date}
+      />
+    ))
+  }
+  <div class="nav">
+    {currentPage > 1 && <a class="button primary small" href={`/services/page/${currentPage - 1}`}>Newer</a>}
+    {currentPage < totalPages && <a class="button primary small" href={`/services/page/${currentPage + 1}`}>Older</a>}
+  </div>
+</Layout>

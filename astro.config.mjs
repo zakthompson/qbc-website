@@ -9,4 +9,10 @@ export default defineConfig({
   },
   output: 'server',
   adapter: vercel(),
+  redirects: {
+    '/services': {
+      status: 302,
+      destination: '/services/page/1',
+    },
+  },
 });
