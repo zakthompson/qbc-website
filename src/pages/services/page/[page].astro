@@ -51,7 +51,7 @@ const totalPages = Math.ceil(totalCount / PAGE_SIZE);
     ))
   }
   <div class="nav">
-    {currentPage > 1 && <a class="button primary small" href={`/services/${currentPage - 1}`}>Newer</a>}
-    {currentPage < totalPages && <a class="button primary small" href={`/services/${currentPage + 1}`}>Older</a>}
+    {currentPage > 1 && <a class="button primary small" href={`/services/page/${currentPage - 1}`}>Newer</a>}
+    {currentPage < totalPages && <a class="button primary small" href={`/services/page/${currentPage + 1}`}>Older</a>}
   </div>
 </Layout>
