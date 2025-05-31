@@ -1,0 +1,45 @@
+---
+const res = await fetch(`${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/banner`);
+const banner = await res.json();
+const { 
+  active,
+  text,
+  button_label: buttonLabel,
+  button_url: buttonUrl,
+  banner_color: bannerColor,
+  banner_text_color: bannerTextColor,
+  button_color: buttonColor,
+  button_text_color: buttonTextColor
+} = banner.data;
+---
+
+<style>
+  .banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px; 
+    padding: 20px;
+    width: 100%;
+    height: 60px;
+  }
+
+  .banner-button {
+    cursor: pointer;
+  }
+</style>
+
+{!!active && <section class="banner" style={`background-color: ${bannerColor}; color: ${bannerTextColor};`}>
+  <h3 class="banner-text" style={`color: ${bannerTextColor}; background-color: ${bannerColor};`}>
+    {text}
+  </h3>
+  <a
+    href={buttonUrl}
+    class="banner-button button primary" 
+    style={`background-color: ${buttonColor}; color: ${buttonTextColor};`}
+  >
+    <h3>
+      {buttonLabel}
+    </h3>
+  </a>
+</section>}
