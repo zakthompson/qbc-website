@@ -14,5 +14,9 @@ export default defineConfig({
       status: 302,
       destination: '/services/page/1',
     },
+    '/retreat': {
+      status: 302,
+      destination: 'https://www.zeffy.com/ticketing/annual-day-retreat',
+    },
   },
 });
