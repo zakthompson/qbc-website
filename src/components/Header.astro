@@ -4,10 +4,56 @@ import logo from "../images/logo.png";
 
 interface Props {
   isHome: boolean;
-  isKids: boolean;
+  noHeaderImage: boolean;
 }
 
-const { isHome, isKids } = Astro.props;
+interface CollectionItem {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+interface Collection {
+  name: string;
+  slug: string;
+  items: CollectionItem[];
+}
+
+const { isHome, noHeaderImage } = Astro.props;
+
+// Fetch collections for navigation
+async function fetchCollections(): Promise<Collection[]> {
+  try {
+    const res = await fetch(
+      `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/ministries?filter[status][_eq]=published&sort=sort`
+    );
+    
+    if (!res.ok) {
+      console.warn('Failed to fetch navigation data:', res.status, res.statusText);
+      return [];
+    }
+    
+    const json = await res.json();
+    const ministries = json.data || [];
+    
+    if (ministries.length === 0) return [];
+    
+    return [{
+      name: 'Ministries',
+      slug: 'ministries',
+      items: ministries.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        slug: item.slug || item.name.toLowerCase().replace(/\s+/g, '-')
+      }))
+    }];
+  } catch (error) {
+    console.error('Error fetching navigation data:', error);
+    return [];
+  }
+}
+
+const collections = await fetchCollections();
 ---
 
 <style>
@@ -18,7 +64,7 @@ const { isHome, isKids } = Astro.props;
     height: 100px;
     position: fixed;
     color: #fff;
-    z-index: 3;
+    z-index: 1000;
     background-color: transparent;
     transition: background-color 0.5s, color 0.5s;
     padding-top: 10px;
@@ -65,17 +111,154 @@ const { isHome, isKids } = Astro.props;
     text-transform: uppercase;
   }
 
+  .nav-container {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
   .link {
+    margin-right: 20px;
+    position: relative;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1001;
+    border-radius: 4px;
+    padding: 8px 0;
+    top: 100%;
+    left: 0;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content a {
+    color: #333 !important;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: 400;
+    transition: background-color 0.3s;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 700;
     margin-right: 20px;
   }
 
-  @media only screen and (max-width: 640px) {
-    .link {
+  .dropdown-toggle::after {
+    content: '‹';
+    font-size: 1.2em;
+    transform: rotate(-90deg);
+    opacity: 0.7;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 20px;
+  }
+
+  .hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: currentColor;
+    margin: 3px 0;
+    transition: 0.3s;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg);
+    position: absolute;
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg);
+    position: absolute;
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 100px);
+    background-color: #fff;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    padding: 20px;
+    z-index: 999;
+    overflow-y: auto;
+  }
+
+  .mobile-menu.active {
+    display: block;
+  }
+
+  .mobile-menu a {
+    color: #333 !important;
+    display: block;
+    padding: 12px 0;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+    font-weight: 400;
+  }
+
+  .mobile-menu a:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-menu .nested {
+    padding-left: 20px;
+    font-size: 0.9em;
+    color: #666 !important;
+  }
+
+  .mobile-menu .top-level {
+    font-weight: 700;
+    color: #333 !important;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+
+  .mobile-menu .top-level:last-child {
+    border-bottom: none;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .nav-container {
       display: none;
     }
 
-    .visit {
-      display: none;
+    .hamburger {
+      display: flex;
     }
 
     .desktop-only {
@@ -85,10 +268,14 @@ const { isHome, isKids } = Astro.props;
     .name {
       display: none;
     }
+
+    #visit {
+      display: none;
+    }
   }
 </style>
 
-<header class={`header ${isKids ? ` scrolled` : ""}`}>
+<header class={`header ${noHeaderImage ? 'scrolled' : ''}`}>
   <div class="actual-header">
     <a href="/">
       <Image width={80} alt="Logo" src={logo} />
@@ -102,27 +289,59 @@ const { isHome, isKids } = Astro.props;
       )
     }
     <div class="fill"></div>
-    <a class="link" href="/kids">Kingdom Kids</a>
-    <a class="link" href="/services/page/1">Service Archive</a>
+    <div class="nav-container">
+      {collections.map(collection => (
+        <div class="dropdown">
+          <div class="dropdown-toggle">
+            {collection.name}
+          </div>
+          <div class="dropdown-content">
+            {collection.items.map(item => (
+              <a href={`/${collection.slug}/${item.slug}`}>{item.name}</a>
+            ))}
+          </div>
+        </div>
+      ))}
+      <a class="link" href="/services/page/1">Service Archive</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <div id="visit">
       <span class="desktop-only">Plan a</span>
       Visit
     </div>
   </div>
+  <div class="mobile-menu" id="mobile-menu">
+    {collections.map(collection => (
+      <>
+        <div class="top-level">{collection.name}</div>
+        {collection.items.map(item => (
+          <a href={`/${collection.slug}/${item.slug}`} class="nested">{item.name}</a>
+        ))}
+      </>
+    ))}
+    <a href="/services/page/1" class="top-level">Service Archive</a>
+    <div id="mobile-visit" class="top-level">
+      Plan a Visit
+    </div>
+  </div>
 </header>
-<script define:vars={{ isKids }}>
+<script define:vars={{ noHeaderImage }}>
   function onScroll() {
-    let scrolled = false;
+    if (noHeaderImage) return; // Don't handle scroll for pages without header images
+    
     const headerEl = document.getElementsByClassName("header")[0];
     const visitEl = document.getElementById("visit");
-    if (!scrolled && !isKids && window.scrollY >= 200) {
+    
+    if (window.scrollY >= 200) {
       headerEl.classList.add("scrolled");
-      visitEl.classList.add("scrolled");
-      scrolled = true;
-    } else if (!isKids && window.scrollY < 200) {
+      visitEl?.classList.add("scrolled");
+    } else {
       headerEl.classList.remove("scrolled");
-      visitEl.classList.remove("scrolled");
-      scrolled = false;
+      visitEl?.classList.remove("scrolled");
     }
   }
 
@@ -140,4 +359,75 @@ const { isHome, isKids } = Astro.props;
   if (visitEl) {
     visitEl.addEventListener("click", scrollDown);
   }
+
+  // Dropdown functionality
+  function initDropdowns() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+      const toggle = dropdown.querySelector('.dropdown-toggle');
+      if (!toggle) return;
+      
+      toggle.addEventListener('click', function(event) {
+        event.stopPropagation();
+        
+        // Close other dropdowns
+        dropdowns.forEach(other => {
+          if (other !== dropdown) {
+            other.classList.remove('active');
+          }
+        });
+        
+        // Toggle current dropdown
+        dropdown.classList.toggle('active');
+      });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', () => {
+      dropdowns.forEach(dropdown => {
+        dropdown.classList.remove('active');
+      });
+    });
+  }
+  
+  initDropdowns();
+
+  // Mobile menu functionality
+  function initMobileMenu() {
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileVisit = document.getElementById("mobile-visit");
+    
+    if (!hamburger || !mobileMenu) return;
+    
+    function closeMobileMenu() {
+      hamburger.classList.remove("active");
+      mobileMenu.classList.remove("active");
+    }
+    
+    // Toggle menu on hamburger click
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      mobileMenu.classList.toggle("active");
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target && !hamburger.contains(target) && !mobileMenu.contains(target)) {
+        closeMobileMenu();
+      }
+    });
+    
+    // Mobile visit button functionality
+    if (mobileVisit) {
+      mobileVisit.addEventListener("click", () => {
+        closeMobileMenu();
+        scrollDown();
+      });
+    }
+  }
+  
+  initMobileMenu();
 </script>

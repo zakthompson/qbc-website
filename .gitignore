@@ -1,6 +1,11 @@
 # build output
 dist/
 .output/
+.vercel/
+.astro/
+
+# local development files
+CLAUDE.md
 
 # dependencies
 node_modules/

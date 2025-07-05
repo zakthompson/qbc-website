@@ -5,7 +5,6 @@ import "@fontsource/montserrat";
 import "@fontsource/montserrat/700.css";
 import "@fontsource/montserrat/700-italic.css";
 import "@fontsource/pacifico";
-import Banner from "../components/Banner.astro";
 import Header from "../components/Header.astro";
 import Contact from "../components/Contact.astro";
 
@@ -16,8 +15,8 @@ export interface Props {
 
 const { title, pathname } = Astro.props;
 
-const isHome = pathname !== "/";
-const isKids = pathname === "/kids";
+const isHome = pathname === "/";
+const noHeaderImage = pathname !== "/" && pathname !== "/kids" && !pathname.startsWith('/services');
 ---
 
 <style is:global>
@@ -189,7 +188,7 @@ const isKids = pathname === "/kids";
     <title>{title}</title>
   </head>
   <body>
-    <Header isHome={isHome} isKids={isKids} />
+    <Header isHome={isHome} noHeaderImage={noHeaderImage} />
     <main>
       <slot />
     </main>
