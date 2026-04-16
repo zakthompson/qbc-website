@@ -18,5 +18,9 @@ export default defineConfig({
       status: 302,
       destination: 'https://www.zeffy.com/ticketing/annual-day-retreat',
     },
+    '/docs': {
+      status: 302,
+      destination: 'https://zakthompson.notion.site/QBC-Documentation-344911458b4b80d59f48d5e804aeecdc',
+    },
   },
 });
