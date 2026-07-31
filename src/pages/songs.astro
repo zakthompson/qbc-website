@@ -194,7 +194,8 @@ const totalCount = songs.length;
   }
 
   .song-title-link .arrow {
-    font-size: 0.6em;
+    width: 0.7em;
+    height: 0.7em;
     color: #FF8C1B;
     margin-top: 0.2em;
     flex: none;
@@ -353,7 +354,7 @@ const totalCount = songs.length;
           <article class="song-card" data-song-tags={tags.join('|')}>
             {song.video_url ? (
               <a href={song.video_url} target="_blank" rel="noopener" class="song-title-link">
-                {song.name}<span class="arrow">↗</span>
+                {song.name}<svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 8.5 3.5M4.5 3.5h4v4"/></svg>
               </a>
             ) : (
               <span class="song-title-no-link">{song.name}</span>
@@ -367,9 +368,9 @@ const totalCount = songs.length;
 
             {(song.artist || song.key) && (
               <div class="meta-row">
-                {song.artist && <span><strong>Artist:</strong> {song.artist}</span>}
+                {song.artist && <span><strong>Artist:</strong>{' '}{song.artist}</span>}
                 {song.artist && song.key && <span class="meta-sep">·</span>}
-                {song.key && <span><strong>Key:</strong> {song.key}</span>}
+                {song.key && <span><strong>Key:</strong>{' '}{song.key}</span>}
               </div>
             )}
 
