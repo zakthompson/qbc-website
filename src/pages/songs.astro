@@ -1,0 +1,528 @@
+---
+export const prerender = false;
+
+import Layout from "../layouts/Layout.astro";
+
+interface Song {
+  id: number;
+  name: string;
+  artist: string;
+  key: string;
+  tags: string[];
+  video_url: string | null;
+  music_sheets: { directus_files_id: string }[];
+}
+
+const SHEET_TYPES = ["Chords", "Lead Sheet", "Vocal Sheet"];
+
+let songs: Song[] = [];
+try {
+  const res = await fetch(
+    `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/songs?sort=name&limit=-1&fields=*,music_sheets.directus_files_id`
+  );
+  if (res.ok) {
+    const json = await res.json();
+    songs = json.data || [];
+  }
+} catch (e) {
+  console.error('Error fetching songs:', e);
+}
+
+const allTags = [...new Set(songs.flatMap(s => s.tags || []))];
+const filters = ["All", ...allTags];
+const endpoint = import.meta.env.PUBLIC_DIRECTUS_ENDPOINT;
+const totalCount = songs.length;
+---
+
+<style>
+  .songs-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 140px 24px 96px;
+  }
+
+  .title-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .title-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .title-line {
+    position: relative;
+    padding: 5px 40px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #fff;
+    font-size: clamp(2.6rem, 7vw, 4.4rem);
+  }
+
+  .title-line span.text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .title-line .bg {
+    position: absolute;
+    inset: 0;
+    transform: skew(-25deg);
+    z-index: 0;
+  }
+
+  .title-song {
+    margin-bottom: 6px;
+    transform: translateX(-56px);
+  }
+
+  .title-song .bg {
+    background: #FF8C1B;
+  }
+
+  .title-library {
+    transform: translateX(56px);
+  }
+
+  .title-library .bg {
+    background: #222;
+  }
+
+  .subtitle {
+    max-width: 640px;
+    margin: 38px auto 0;
+    text-align: center;
+    font-size: 19px;
+    line-height: 1.6;
+    color: #444;
+  }
+
+  .description {
+    max-width: 660px;
+    margin: 14px auto 0;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #777;
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 44px 0 40px;
+  }
+
+  .filter-btn {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 2px;
+    border: 2px solid #222;
+    background: #fff;
+    color: #222;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover {
+    border-color: #FF8C1B;
+    color: #FF8C1B;
+  }
+
+  .filter-btn.active {
+    background: #FF8C1B;
+    color: #fff;
+    border-color: #FF8C1B;
+  }
+
+  .songs-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(408px, 1fr));
+    gap: 22px;
+    align-items: start;
+  }
+
+  .song-card {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    padding: 28px 24px 26px;
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    border-radius: 3px;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    will-change: transform, opacity;
+  }
+
+  .song-card:hover {
+    border-color: #FF8C1B;
+    box-shadow: 0 16px 34px -22px rgba(0, 0, 0, 0.5);
+    transform: translateY(-3px);
+  }
+
+  .song-title-link {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 2vw, 1.55rem);
+    line-height: 1.2;
+    color: #1c1c1c;
+    letter-spacing: 0.005em;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.35em;
+  }
+
+  .song-title-link:hover {
+    color: #FF8C1B;
+  }
+
+  .song-title-link .arrow {
+    font-size: 0.6em;
+    color: #FF8C1B;
+    margin-top: 0.2em;
+    flex: none;
+  }
+
+  .song-title-no-link {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 2vw, 1.55rem);
+    line-height: 1.2;
+    color: #9a9a9a;
+    letter-spacing: 0.005em;
+  }
+
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag-pill {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: 2px;
+    background: rgba(255, 140, 27, 0.12);
+    color: #d9700d;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  .meta-row strong {
+    font-weight: 700;
+    color: #2a2a2a;
+  }
+
+  .meta-sep {
+    color: #c4c4c4;
+    margin: 0 12px;
+  }
+
+  .sheets-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding-top: 16px;
+    border-top: 1px solid #ededed;
+  }
+
+  .sheet-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    padding: 8px 11px;
+    border-radius: 2px;
+    background: #222;
+    color: #fff;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+
+  .sheet-btn:hover {
+    background: #FF8C1B;
+  }
+
+  .songs-count {
+    text-align: center;
+    margin: 50px 0 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #aaa;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .songs-container {
+      padding: 120px 16px 60px;
+    }
+
+    .title-song {
+      transform: translateX(-30px);
+    }
+
+    .title-library {
+      transform: translateX(30px);
+    }
+
+    .songs-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .filter-btn {
+      padding: 8px 14px;
+      font-size: 12px;
+    }
+  }
+</style>
+
+<Layout title="Song Library | Queensway Baptist Church" pathname="/songs">
+  <div class="songs-container">
+    <div class="title-block">
+      <div class="title-stack">
+        <div class="title-line title-song">
+          <span class="text">Song</span>
+          <div class="bg"></div>
+        </div>
+        <div class="title-line title-library">
+          <span class="text">Library</span>
+          <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="subtitle">A living collection of the songs we sing together on Sunday mornings.</p>
+    <p class="description">Filter by theme below, tap any title to watch it on YouTube, and download the chord charts, lead sheets, and vocal sheets you need.</p>
+
+    <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Filter songs by theme">
+      {filters.map(f => (
+        <button
+          type="button"
+          class={`filter-btn ${f === 'All' ? 'active' : ''}`}
+          data-filter={f}
+        >
+          {f}
+        </button>
+      ))}
+    </div>
+
+    <div class="songs-grid" id="songs-grid">
+      {songs.map(song => {
+        const sheets = (song.music_sheets || []).map((entry: { directus_files_id: string }, i: number) => ({
+          type: SHEET_TYPES[i] || "Sheet",
+          url: `${endpoint}/assets/${entry.directus_files_id}?download`,
+        }));
+        const tags = song.tags || [];
+        return (
+          <article class="song-card" data-song-tags={tags.join('|')}>
+            {song.video_url ? (
+              <a href={song.video_url} target="_blank" rel="noopener" class="song-title-link">
+                {song.name}<span class="arrow">↗</span>
+              </a>
+            ) : (
+              <span class="song-title-no-link">{song.name}</span>
+            )}
+
+            {tags.length > 0 && (
+              <div class="tags-row">
+                {tags.map(t => <span class="tag-pill">{t}</span>)}
+              </div>
+            )}
+
+            {(song.artist || song.key) && (
+              <div class="meta-row">
+                {song.artist && <span><strong>Artist:</strong> {song.artist}</span>}
+                {song.artist && song.key && <span class="meta-sep">·</span>}
+                {song.key && <span><strong>Key:</strong> {song.key}</span>}
+              </div>
+            )}
+
+            {sheets.length > 0 && (
+              <div class="sheets-row">
+                {sheets.map(sh => (
+                  <a href={sh.url} target="_blank" rel="noopener" class="sheet-btn">
+                    <span>↓</span>{sh.type}
+                  </a>
+                ))}
+              </div>
+            )}
+          </article>
+        );
+      })}
+    </div>
+
+    <p class="songs-count" id="songs-count">{totalCount} Songs</p>
+  </div>
+</Layout>
+
+<script define:vars={{ totalCount }}>
+  function initSongFilters() {
+    const filterBar = document.getElementById('filter-bar');
+    const grid = document.getElementById('songs-grid');
+    const countEl = document.getElementById('songs-count');
+    if (!filterBar || !grid) return;
+
+    const buttons = filterBar.querySelectorAll('.filter-btn');
+    const cards = [...grid.querySelectorAll('.song-card')];
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter') || 'All';
+
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const show = new Map();
+        cards.forEach(c => {
+          const tags = (c.getAttribute('data-song-tags') || '').split('|').filter(Boolean);
+          show.set(c, filter === 'All' || tags.includes(filter));
+        });
+
+        const first = new Map();
+        cards.forEach(c => {
+          if (c.style.display !== 'none' && c.style.position !== 'absolute') {
+            first.set(c, c.getBoundingClientRect());
+          }
+        });
+
+        const gridRect = grid.getBoundingClientRect();
+
+        cards.forEach(c => {
+          const willShow = show.get(c);
+          const inFlow = c.style.display !== 'none' && c.style.position !== 'absolute';
+          if (!willShow && inFlow) {
+            const r = first.get(c);
+            if (r) {
+              c.style.position = 'absolute';
+              c.style.top = (r.top - gridRect.top) + 'px';
+              c.style.left = (r.left - gridRect.left) + 'px';
+              c.style.width = r.width + 'px';
+              c.style.margin = '0';
+              c.style.zIndex = '0';
+              c.dataset.exiting = '1';
+            }
+          } else if (willShow && (c.style.display === 'none' || c.dataset.exiting)) {
+            delete c.dataset.exiting;
+            c.style.position = '';
+            c.style.top = '';
+            c.style.left = '';
+            c.style.width = '';
+            c.style.margin = '';
+            c.style.zIndex = '';
+            c.style.display = 'flex';
+            c.dataset.entering = '1';
+          }
+        });
+
+        requestAnimationFrame(() => {
+          let visibleCount = 0;
+          cards.forEach(c => {
+            const willShow = show.get(c);
+            if (!willShow) {
+              if (c.dataset.exiting) {
+                c.style.transition = 'opacity .3s ease, transform .3s ease';
+                c.style.opacity = '0';
+                c.style.transform = 'scale(.9)';
+                setTimeout(() => {
+                  c.style.display = 'none';
+                  c.style.transition = '';
+                  c.style.position = '';
+                  c.style.top = '';
+                  c.style.left = '';
+                  c.style.width = '';
+                  c.style.margin = '';
+                  c.style.zIndex = '';
+                  c.style.opacity = '';
+                  c.style.transform = '';
+                  delete c.dataset.exiting;
+                }, 340);
+              }
+              return;
+            }
+
+            visibleCount++;
+
+            if (c.dataset.entering) {
+              delete c.dataset.entering;
+              c.style.transition = 'none';
+              c.style.opacity = '0';
+              c.style.transform = 'scale(.94) translateY(12px)';
+              c.getBoundingClientRect();
+              c.style.transition = 'opacity .45s ease, transform .45s cubic-bezier(.2,.7,.2,1)';
+              c.style.opacity = '1';
+              c.style.transform = 'none';
+              setTimeout(() => {
+                c.style.transition = '';
+                c.style.opacity = '';
+                c.style.transform = '';
+              }, 500);
+            } else {
+              const prev = first.get(c);
+              if (!prev) return;
+              const now = c.getBoundingClientRect();
+              c.style.opacity = '1';
+              const dx = prev.left - now.left;
+              const dy = prev.top - now.top;
+              if (dx || dy) {
+                c.style.transition = 'none';
+                c.style.transform = `translate(${dx}px,${dy}px)`;
+                c.getBoundingClientRect();
+                c.style.transition = 'transform .5s cubic-bezier(.2,.7,.2,1)';
+                c.style.transform = 'none';
+                setTimeout(() => {
+                  c.style.transition = '';
+                  c.style.transform = '';
+                  c.style.opacity = '';
+                }, 550);
+              }
+            }
+          });
+
+          if (countEl) {
+            countEl.textContent = filter === 'All'
+              ? totalCount + ' Songs'
+              : visibleCount + ' Song' + (visibleCount !== 1 ? 's' : '');
+          }
+        });
+      });
+    });
+  }
+
+  initSongFilters();
+</script>
