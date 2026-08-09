@@ -28,7 +28,11 @@ try {
   console.error('Error fetching songs:', e);
 }
 
-const allTags = [...new Set(songs.flatMap(s => s.tags || []))];
+const allTags = [...new Set(songs.flatMap(s => s.tags || []))].sort((a, b) => {
+  if (a === 'Christmas') return 1;
+  if (b === 'Christmas') return -1;
+  return a.localeCompare(b);
+});
 const filters = ["All", ...allTags];
 const endpoint = import.meta.env.PUBLIC_DIRECTUS_ENDPOINT;
 const totalCount = songs.length;
