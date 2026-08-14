@@ -42,6 +42,30 @@ import SkewedBackground from "./SkewedBackground.astro";
       margin-left: 0;
     }
 
+  .email-copy-btn {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #FFAD5D;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-top: 4px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .email-copy-btn:hover {
+    color: #FF8C1B;
+  }
+
+  .email-copy-btn .copy-icon {
+    font-size: 1.3rem;
+    opacity: 0.8;
+  }
+
   @media only screen and (max-width: 1024px) {
       .wrap {
           flex-direction: column;
@@ -78,6 +102,12 @@ import SkewedBackground from "./SkewedBackground.astro";
     <div>(416) 251-6121</div>
     <em>Regular Services:</em>
     <div>Sunday | 11:00am</div>
+    <em>Giving:</em>
+    <div>Make a donation by e-transfer to</div>
+    <button id="copy-email" class="email-copy-btn">
+      <span>qbc.offering@gmail.com</span>
+      <i class="fa-regular fa-copy copy-icon"></i>
+    </button>
     <em>Follow Us:</em>
     <div>
       <a class="social-link" href="https://www.facebook.com/queenswaybaptist/">
@@ -88,6 +118,31 @@ import SkewedBackground from "./SkewedBackground.astro";
       </a>
     </div>
   </div>
+  <script>
+    const btn = document.getElementById('copy-email');
+    const icon = btn?.querySelector('.copy-icon');
+    let timeout: ReturnType<typeof setTimeout>;
+
+    btn?.addEventListener('click', () => {
+      const email = 'qbc.offering@gmail.com';
+      const done = () => {
+        if (icon) {
+          icon.className = 'fa-solid fa-check copy-icon';
+        }
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          if (icon) {
+            icon.className = 'fa-regular fa-copy copy-icon';
+          }
+        }, 1800);
+      };
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(email).then(done, done);
+      } else {
+        done();
+      }
+    });
+  </script>
   <div class="map-wrap">
     <iframe
       class="map"
