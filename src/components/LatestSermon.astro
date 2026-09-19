@@ -65,6 +65,12 @@ const id = url.split("/").at(-1);
     width: 60%;
   }
 
+  .title-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .info-text {
     flex: 1;
     display: flex;
@@ -115,18 +121,20 @@ const id = url.split("/").at(-1);
   </div>
   <div class="sermon-info">
     <div class="title">
-      <SkewedBackground color="#222" offset={-30}>
-        <h2>Latest</h2>
-      </SkewedBackground>
-      <SkewedBackground color="#555" offset={30}>
-        <h2>Service</h2>
-      </SkewedBackground>
+      <div class="title-stack">
+        <SkewedBackground color="#1a3a8a" offset={-30}>
+          <h2>Latest</h2>
+        </SkewedBackground>
+        <SkewedBackground color="#2d5fd3" offset={30}>
+          <h2>Sermon</h2>
+        </SkewedBackground>
+      </div>
     </div>
     <div class="info-text">
       <h5>{formattedDate}</h5>
       <h3>{title}</h3>
       <h4>{context} | {speaker}</h4>
     </div>
-    <a class="button primary small" href="/services">Past Services</a>
+    <a class="button primary small" href="/services">Past Sermons</a>
   </div>
 </section>

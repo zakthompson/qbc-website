@@ -11,12 +11,13 @@ import Contact from "../components/Contact.astro";
 export interface Props {
   title: string;
   pathname: string;
+  hasHeroImage?: boolean;
 }
 
-const { title, pathname } = Astro.props;
+const { title, pathname, hasHeroImage } = Astro.props;
 
 const isHome = pathname === "/";
-const noHeaderImage = pathname !== "/" && pathname !== "/kids" && !pathname.startsWith('/services');
+const noHeaderImage = hasHeroImage === true ? false : hasHeroImage === false ? true : pathname !== "/" && pathname !== "/kids" && !pathname.startsWith('/services');
 ---
 
 <style is:global>
@@ -69,13 +70,13 @@ const noHeaderImage = pathname !== "/" && pathname !== "/kids" && !pathname.star
     font-size: 4.2rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #fff;
+    color: inherit;
   }
 
   h2 {
     font-size: 2.8rem;
     text-transform: uppercase;
-    color: #fff;
+    color: inherit;
   }
 
   h3 {

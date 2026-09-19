@@ -15,7 +15,7 @@ const { overlayColor } = Astro.props;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 90vh;
+    height: 50vh;
     color: #fff;
     background-attachment: fixed;
     background-image: url("../images/hero.jpg");
@@ -37,6 +37,12 @@ const { overlayColor } = Astro.props;
     z-index: 1;
   }
 
+  .title-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   @media only screen and (max-width: 1024px) {
     .service-time {
       font-size: 1.6rem;
@@ -47,11 +53,13 @@ const { overlayColor } = Astro.props;
 <div class="hero-image">
   <div class="overlay"></div>
   <div class="title-wrap">
-    <SkewedBackground color="#222" offset={-75}>
-      <h1>Service</h1>
-    </SkewedBackground>
-    <SkewedBackground color="#555" offset={75}>
-      <h1>Archive</h1>
-    </SkewedBackground>
+    <div class="title-stack">
+      <SkewedBackground color="#1a3a8a" offset={-75}>
+        <h1>Sermon</h1>
+      </SkewedBackground>
+      <SkewedBackground color="#2d5fd3" offset={75}>
+        <h1>Archive</h1>
+      </SkewedBackground>
+    </div>
   </div>
 </div>

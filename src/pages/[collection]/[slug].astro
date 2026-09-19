@@ -2,47 +2,53 @@
 export const prerender = false;
 
 import Layout from "../../layouts/Layout.astro";
+import SkewedBackground from "../../components/SkewedBackground.astro";
 
 interface CMSPage {
   id: string;
   name: string;
+  nameLine2: string;
   content: string;
   slug: string;
   status: string;
+  featureImage: string | null;
 }
 
 const { collection, slug } = Astro.params;
 
-// Validate parameters and fetch page data
+const directusUrl = import.meta.env.PUBLIC_DIRECTUS_ENDPOINT;
+
 async function fetchCMSPage(collection: string, slug: string): Promise<CMSPage | null> {
-  const validCollections = ['ministries'];
-  
+  const validCollections = ['ministries', 'about_us', 'resources'];
+
   if (!collection || !slug || !validCollections.includes(collection)) {
     return null;
   }
-  
+
   try {
-    const fetchUrl = `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/${collection}?filter[slug][_eq]=${slug}&filter[status][_eq]=published&limit=1`;
+    const fetchUrl = `${directusUrl}/items/${collection}?filter[slug][_eq]=${slug}&filter[status][_eq]=published&limit=1`;
     const res = await fetch(fetchUrl);
-    
+
     if (!res.ok) {
       console.error('Fetch error:', res.status, res.statusText);
       return null;
     }
-    
+
     const json = await res.json();
-    
+
     if (json.data && json.data.length > 0) {
       const pageData = json.data[0];
       return {
         id: pageData.id || '',
         name: pageData.name || '',
+        nameLine2: pageData.name_line_2 || '',
         content: pageData.content || '',
         slug: pageData.slug || '',
-        status: pageData.status || ''
+        status: pageData.status || '',
+        featureImage: pageData.feature_image || null
       };
     }
-    
+
     return null;
   } catch (error) {
     console.error('Error fetching page:', error);
@@ -52,36 +58,72 @@ async function fetchCMSPage(collection: string, slug: string): Promise<CMSPage |
 
 const page = await fetchCMSPage(collection!, slug!);
 
-// Redirect if page not found
 if (!page) {
   return Astro.redirect('/404');
 }
 
-// Generate page title
-const pageTitle = `${page.name} | Queensway Baptist Church`;
+const renderedContent = page.content.replace(/(src|href)="\/assets\//g, `$1="${directusUrl}/assets/`);
+const pageTitle = `${[page.name, page.nameLine2].filter(Boolean).join(' ')} | Queensway Baptist Church`;
+const hasFeatureImage = !!page.featureImage;
+const featureImageUrl = hasFeatureImage ? `${directusUrl}/assets/${page.featureImage}` : '';
 ---
 
 <style>
+  .hero-image {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50vh;
+    color: #fff;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .overlay {
+    background-color: rgba(80, 85, 90, 0.45);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .title-wrap {
+    text-align: center;
+    z-index: 1;
+  }
+
+  .title-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .page-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 120px 20px 40px;
+    padding: 40px 20px;
   }
-  
-  .page-title {
-    font-size: 3.2rem;
-    font-weight: 700;
-    color: #333;
+
+  .page-container.no-hero {
+    padding-top: 120px;
+  }
+
+  .no-hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 30px;
-    text-align: center;
   }
-  
+
   .page-content {
     font-size: 1.8rem;
     line-height: 1.6;
     color: #555;
   }
-  
+
   .page-content h1,
   .page-content h2,
   .page-content h3,
@@ -92,28 +134,28 @@ const pageTitle = `${page.name} | Queensway Baptist Church`;
     margin-top: 30px;
     margin-bottom: 15px;
   }
-  
+
   .page-content p {
     margin-bottom: 20px;
   }
-  
+
   .page-content ul,
   .page-content ol {
     margin-bottom: 20px;
     padding-left: 30px;
   }
-  
+
   .page-content li {
     margin-bottom: 10px;
   }
-  
+
   .page-content img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
     margin: 20px 0;
   }
-  
+
   .page-content blockquote {
     border-left: 4px solid #ddd;
     padding-left: 20px;
@@ -121,34 +163,74 @@ const pageTitle = `${page.name} | Queensway Baptist Church`;
     font-style: italic;
     color: #666;
   }
-  
+
   .page-content a {
     color: #2b4170;
     text-decoration: underline;
   }
-  
+
   .page-content a:hover {
     color: #1a2940;
   }
-  
+
   @media only screen and (max-width: 768px) {
     .page-container {
-      padding: 120px 15px 40px;
+      padding: 40px 15px;
     }
-    
-    .page-title {
-      font-size: 2.4rem;
+
+    .page-container.no-hero {
+      padding-top: 120px;
     }
-    
+
     .page-content {
       font-size: 1.6rem;
     }
   }
 </style>
 
-<Layout title={pageTitle} pathname={`/${collection}/${slug}`}>
-  <div class="page-container">
-    <h1 class="page-title">{page.name}</h1>
-    <div class="page-content" set:html={page.content}></div>
-  </div>
+<Layout title={pageTitle} pathname={`/${collection}/${slug}`} hasHeroImage={hasFeatureImage}>
+  {hasFeatureImage ? (
+    <div class="hero-image" style={`background-image: url('${featureImageUrl}')`}>
+      <div class="overlay"></div>
+      <div class="title-wrap">
+        {page.nameLine2 ? (
+          <div class="title-stack">
+            <SkewedBackground color="#1a3a8a" offset={-75}>
+              <h1>{page.name}</h1>
+            </SkewedBackground>
+            <SkewedBackground color="#2d5fd3" offset={75}>
+              <h1>{page.nameLine2}</h1>
+            </SkewedBackground>
+          </div>
+        ) : (
+          <SkewedBackground color="#1a3a8a">
+            <h1>{page.name}</h1>
+          </SkewedBackground>
+        )}
+      </div>
+    </div>
+    <div class="page-container">
+      <div class="page-content" set:html={renderedContent}></div>
+    </div>
+  ) : (
+    <div class="page-container no-hero">
+      <div class="no-hero-title">
+        {page.nameLine2 ? (
+          <div class="title-stack">
+            <SkewedBackground color="#1a3a8a" offset={-75}>
+              <h1>{page.name}</h1>
+            </SkewedBackground>
+            <SkewedBackground color="#2d5fd3" offset={75}>
+              <h1>{page.nameLine2}</h1>
+            </SkewedBackground>
+          </div>
+        ) : (
+          <SkewedBackground color="#1a3a8a">
+            <h1>{page.name}</h1>
+          </SkewedBackground>
+        )}
+      </div>
+      <div class="page-content" set:html={renderedContent}></div>
+    </div>
+  )}
 </Layout>

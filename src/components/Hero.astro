@@ -37,6 +37,12 @@ const { overlayColor } = Astro.props;
     z-index: 1;
   }
 
+  .title-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .service-time {
     margin-top: 5px;
     font-size: 2rem;
@@ -52,12 +58,14 @@ const { overlayColor } = Astro.props;
 <div class="hero-image">
   <div class="overlay"></div>
   <div class="title-wrap">
-    <SkewedBackground color="#FF8C1B" offset={-75}>
-      <h1>Queensway</h1>
-    </SkewedBackground>
-    <SkewedBackground color="#FFAD5D" offset={75}>
-      <h1>Baptist Church</h1>
-    </SkewedBackground>
+    <div class="title-stack">
+      <SkewedBackground color="#1a3a8a" offset={-75}>
+        <h1>Queensway</h1>
+      </SkewedBackground>
+      <SkewedBackground color="#2d5fd3" offset={75}>
+        <h1>Baptist Church</h1>
+      </SkewedBackground>
+    </div>
     <div class="service-time">Sunday Service | 11:00am</div>
   </div>
 </div>

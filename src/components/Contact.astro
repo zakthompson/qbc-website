@@ -3,12 +3,120 @@ import SkewedBackground from "./SkewedBackground.astro";
 ---
 
 <style>
+  .footer {
+    background-color: #222;
+    color: #fff;
+  }
+
+  .giving-band {
+    padding: 44px 48px 0;
+  }
+
+  .giving-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .giving-divider {
+    border: none;
+    border-top: 1px solid #3a3a3a;
+    margin: 40px 48px 0;
+  }
+
+  .giving-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 520px;
+  }
+
+  .giving-text h3 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1.05;
+  }
+
+  .giving-text p {
+    margin: 0;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: #c4c4c4;
+  }
+
+  .giving-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .copy-btn {
+    cursor: pointer;
+    border: none;
+    background: #2d5fd3;
+    color: #fff;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 1.6rem;
+    padding: 15px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .copy-btn:hover {
+    background: #1a3a8a;
+  }
+
+  .copy-btn .envelope-icon {
+    font-size: 1.7rem;
+    flex: none;
+  }
+
+  .copy-btn .email-text {
+    overflow-wrap: anywhere;
+  }
+
+  .copy-btn .copy-icon {
+    font-size: 1.4rem;
+    opacity: 0.85;
+    flex: none;
+  }
+
+  .copied-label {
+    height: 14px;
+    font-size: 1.3rem;
+    color: #5b8def;
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .title-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .wrap {
     display: flex;
     align-items: stretch;
     justify-content: space-around;
-    background-color: #222;
-    padding: 80px 0;
+    padding: 70px 48px;
     color: #fff;
     min-height: 60vh;
   }
@@ -27,132 +135,146 @@ import SkewedBackground from "./SkewedBackground.astro";
   }
 
   .map {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 
   .social-link {
-      margin-left: 1rem;
-    }
+    margin-left: 1rem;
+  }
 
   .social-link:first-child {
-      margin-left: 0;
-    }
-
-  .email-copy-btn {
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    color: #FFAD5D;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    font-size: 1.6rem;
-    margin-top: 4px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .email-copy-btn:hover {
-    color: #FF8C1B;
-  }
-
-  .email-copy-btn .copy-icon {
-    font-size: 1.3rem;
-    opacity: 0.8;
+    margin-left: 0;
   }
 
   @media only screen and (max-width: 1024px) {
-      .wrap {
-          flex-direction: column;
-          align-items: center;
-          padding: 30px 0;
-        }
-
-      .info {
-          width: 100%;
-          margin-bottom: 40px;
-        }
-
-      .map-wrap {
-          width: 90%;
-          height: 300px;
-        }
+    .giving-band {
+      padding: 34px 24px 0;
     }
 
+    .giving-inner {
+      flex-direction: column;
+      text-align: center;
+      gap: 26px;
+    }
+
+    .giving-divider {
+      margin: 30px 24px 0;
+    }
+
+    .giving-text {
+      align-items: center;
+    }
+
+    .copy-btn {
+      font-size: 1.4rem;
+      padding: 14px 18px;
+    }
+
+    .wrap {
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 24px;
+    }
+
+    .info {
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .map-wrap {
+      width: 90%;
+      height: 300px;
+    }
+  }
 </style>
 
-<section class="wrap">
-  <div class="info">
-    <SkewedBackground color="#FF8C1B" offset={-25}>
-      <h2>Get in</h2>
-    </SkewedBackground>
-    <SkewedBackground color="#FFAD5D" offset={25}>
-      <h2>Touch</h2>
-    </SkewedBackground>
-    <em>Address:</em>
-    <div>950 Islington Avenue</div>
-    <div>Etobicoke, Ontario, Canada</div>
-    <div>M8Z 4P6</div>
-    <em>Phone Number:</em>
-    <div>(416) 251-6121</div>
-    <em>Regular Services:</em>
-    <div>Sunday | 11:00am</div>
-    <em>Giving:</em>
-    <div>Make a donation by e-transfer to</div>
-    <button id="copy-email" class="email-copy-btn">
-      <span>qbc.offering@gmail.com</span>
-      <i class="fa-regular fa-copy copy-icon"></i>
-    </button>
-    <em>Follow Us:</em>
-    <div>
-      <a class="social-link" href="https://www.facebook.com/queenswaybaptist/">
-        <i class="fa fa-facebook"></i>
-      </a>
-      <a class="social-link" href="https://www.instagram.com/queenswaybaptist/">
-        <i class="fa fa-instagram"></i>
-      </a>
+<footer class="footer">
+  <section class="giving-band">
+    <div class="giving-inner">
+      <div class="giving-text">
+        <h3>Make a Donation</h3>
+        <p>Support Queensway Baptist Church by Interac e-Transfer, using the email address shown here.</p>
+      </div>
+      <div class="giving-action">
+        <button id="copy-email" class="copy-btn">
+          <i class="fa-regular fa-envelope envelope-icon"></i>
+          <span class="email-text">qbc.offering@gmail.com</span>
+          <i class="fa-regular fa-copy copy-icon"></i>
+        </button>
+        <div id="copied-label" class="copied-label"></div>
+      </div>
     </div>
-  </div>
-  <script>
-    const btn = document.getElementById('copy-email');
-    const icon = btn?.querySelector('.copy-icon');
-    let timeout: ReturnType<typeof setTimeout>;
+  </section>
+  <hr class="giving-divider" />
 
-    btn?.addEventListener('click', () => {
-      const email = 'qbc.offering@gmail.com';
-      const done = () => {
-        if (icon) {
-          icon.className = 'fa-solid fa-check copy-icon';
-        }
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          if (icon) {
-            icon.className = 'fa-regular fa-copy copy-icon';
-          }
-        }, 1800);
-      };
-      if (navigator.clipboard?.writeText) {
-        navigator.clipboard.writeText(email).then(done, done);
-      } else {
-        done();
-      }
-    });
-  </script>
-  <div class="map-wrap">
-    <iframe
-      class="map"
-      width="100%"
-      height="100%"
-      title="map"
-      src="https://maps.google.com/maps?q=950%20islington%20avenue%2C%20etobocoke&t=&z=15&ie=UTF8&iwloc=&output=embed"
-      frameborder="0"
-      scrolling="no"
-      marginheight="0"
-      marginwidth="0"></iframe>
-  </div>
-</section>
+  <section class="wrap">
+    <div class="info">
+      <div class="title-stack">
+        <SkewedBackground color="#1a3a8a" offset={-25}>
+          <h2>Get in</h2>
+        </SkewedBackground>
+        <SkewedBackground color="#2d5fd3" offset={25}>
+          <h2>Touch</h2>
+        </SkewedBackground>
+      </div>
+      <em>Address:</em>
+      <div>950 Islington Avenue</div>
+      <div>Etobicoke, Ontario, Canada</div>
+      <div>M8Z 4P6</div>
+      <em>Phone Number:</em>
+      <div>(416) 251-6121</div>
+      <em>Regular Services:</em>
+      <div>Sunday | 11:00am</div>
+      <em>Follow Us:</em>
+      <div>
+        <a class="social-link" href="https://www.facebook.com/queenswaybaptist/">
+          <i class="fa fa-facebook"></i>
+        </a>
+        <a class="social-link" href="https://www.instagram.com/queenswaybaptist/">
+          <i class="fa fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+    <div class="map-wrap">
+      <iframe
+        class="map"
+        width="100%"
+        height="100%"
+        title="map"
+        src="https://maps.google.com/maps?q=950%20islington%20avenue%2C%20etobocoke&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"></iframe>
+    </div>
+  </section>
+</footer>
+
+<script>
+  const btn = document.getElementById('copy-email');
+  const label = document.getElementById('copied-label');
+  let timeout: ReturnType<typeof setTimeout>;
+
+  btn?.addEventListener('click', () => {
+    const email = 'qbc.offering@gmail.com';
+    const done = () => {
+      if (label) label.textContent = 'Copied ✓';
+      const icon = btn?.querySelector('.copy-icon');
+      if (icon) icon.className = 'fa-solid fa-check copy-icon';
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (label) label.textContent = '';
+        if (icon) icon.className = 'fa-regular fa-copy copy-icon';
+      }, 1800);
+    };
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(email).then(done, done);
+    } else {
+      done();
+    }
+  });
+</script>

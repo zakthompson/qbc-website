@@ -1,14 +1,20 @@
 ---
 import SkewedBackground from "./SkewedBackground.astro";
 
-const res = await fetch(
-  `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/pastors_message?limit=1`
-);
+const directusUrl = import.meta.env.PUBLIC_DIRECTUS_ENDPOINT;
+const res = await fetch(`${directusUrl}/items/pastors_message?limit=1`);
 const pastorsMessage = await res.json();
-const { headline, text } = pastorsMessage.data;
+const { headline, headline_line_2: headlineLine2 } = pastorsMessage.data;
+const text = (pastorsMessage.data.text || '').replace(/(src|href)="\/assets\//g, `$1="${directusUrl}/assets/`);
 ---
 
 <style>
+  .title-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .wrap {
     display: flex;
     background-color: #efefef;
@@ -65,9 +71,20 @@ const { headline, text } = pastorsMessage.data;
 
 <section class="wrap">
   <div class="about">
-    <SkewedBackground color="#222">
-      <h2>{headline}</h2>
-    </SkewedBackground>
+    {headlineLine2 ? (
+      <div class="title-stack">
+        <SkewedBackground color="#1a3a8a" offset={-25}>
+          <h2>{headline}</h2>
+        </SkewedBackground>
+        <SkewedBackground color="#2d5fd3" offset={25}>
+          <h2>{headlineLine2}</h2>
+        </SkewedBackground>
+      </div>
+    ) : (
+      <SkewedBackground color="#1a3a8a">
+        <h2>{headline}</h2>
+      </SkewedBackground>
+    )}
     <div set:html={text} class="about-text" />
   </div>
   <div class="image"></div>

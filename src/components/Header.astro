@@ -10,6 +10,7 @@ interface Props {
 interface CollectionItem {
   id: string;
   name: string;
+  nameLine2: string;
   slug: string;
 }
 
@@ -21,39 +22,44 @@ interface Collection {
 
 const { isHome, noHeaderImage } = Astro.props;
 
-// Fetch collections for navigation
+const collectionDefs = [
+  { name: 'About Us', slug: 'about_us' },
+  { name: 'Ministries', slug: 'ministries' },
+  { name: 'Resources', slug: 'resources' },
+];
+
 async function fetchCollections(): Promise<Collection[]> {
-  try {
-    const res = await fetch(
-      `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/ministries?filter[status][_eq]=published&sort=sort`
-    );
-    
-    if (!res.ok) {
-      console.warn('Failed to fetch navigation data:', res.status, res.statusText);
-      return [];
+  const results: Collection[] = [];
+  for (const def of collectionDefs) {
+    try {
+      const res = await fetch(
+        `${import.meta.env.PUBLIC_DIRECTUS_ENDPOINT}/items/${def.slug}?filter[status][_eq]=published&sort=sort`
+      );
+      if (!res.ok) continue;
+      const json = await res.json();
+      const items = json.data || [];
+      if (items.length === 0) continue;
+      results.push({
+        name: def.name,
+        slug: def.slug,
+        items: items.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          nameLine2: item.name_line_2 || '',
+          slug: item.slug || item.name.toLowerCase().replace(/\s+/g, '-')
+        }))
+      });
+    } catch (error) {
+      console.error(`Error fetching ${def.slug}:`, error);
     }
-    
-    const json = await res.json();
-    const ministries = json.data || [];
-    
-    if (ministries.length === 0) return [];
-    
-    return [{
-      name: 'Ministries',
-      slug: 'ministries',
-      items: ministries.map((item: any) => ({
-        id: item.id,
-        name: item.name,
-        slug: item.slug || item.name.toLowerCase().replace(/\s+/g, '-')
-      }))
-    }];
-  } catch (error) {
-    console.error('Error fetching navigation data:', error);
-    return [];
   }
+  return results;
 }
 
 const collections = await fetchCollections();
+const aboutUs = collections.find(c => c.slug === 'about_us');
+const ministries = collections.find(c => c.slug === 'ministries');
+const resources = collections.find(c => c.slug === 'resources');
 ---
 
 <style>
@@ -290,20 +296,39 @@ const collections = await fetchCollections();
     }
     <div class="fill"></div>
     <div class="nav-container">
-      {collections.map(collection => (
+      {aboutUs && (
         <div class="dropdown">
-          <div class="dropdown-toggle">
-            {collection.name}
-          </div>
+          <div class="dropdown-toggle">{aboutUs.name}</div>
           <div class="dropdown-content">
-            {collection.items.map(item => (
-              <a href={`/${collection.slug}/${item.slug}`}>{item.name}</a>
+            {aboutUs.items.map(item => (
+              <a href={`/${aboutUs.slug}/${item.slug}`}>{[item.name, item.nameLine2].filter(Boolean).join(' ')}</a>
             ))}
           </div>
         </div>
-      ))}
+      )}
+      {ministries && (
+        <div class="dropdown">
+          <div class="dropdown-toggle">{ministries.name}</div>
+          <div class="dropdown-content">
+            {ministries.items.map(item => (
+              <a href={`/${ministries.slug}/${item.slug}`}>{[item.name, item.nameLine2].filter(Boolean).join(' ')}</a>
+            ))}
+          </div>
+        </div>
+      )}
+      <a class="link" href="/upcoming-events">Upcoming Events</a>
+      {resources && (
+        <div class="dropdown">
+          <div class="dropdown-toggle">{resources.name}</div>
+          <div class="dropdown-content">
+            {resources.items.map(item => (
+              <a href={`/${resources.slug}/${item.slug}`}>{[item.name, item.nameLine2].filter(Boolean).join(' ')}</a>
+            ))}
+          </div>
+        </div>
+      )}
       <a class="link" href="/songs">Songs</a>
-      <a class="link" href="/services/page/1">Service Archive</a>
+      <a class="link" href="/services/page/1">Sermon Archive</a>
     </div>
     <div class="hamburger" id="hamburger">
       <span></span>
@@ -316,16 +341,33 @@ const collections = await fetchCollections();
     </div>
   </div>
   <div class="mobile-menu" id="mobile-menu">
-    {collections.map(collection => (
+    {aboutUs && (
       <>
-        <div class="top-level">{collection.name}</div>
-        {collection.items.map(item => (
-          <a href={`/${collection.slug}/${item.slug}`} class="nested">{item.name}</a>
+        <div class="top-level">{aboutUs.name}</div>
+        {aboutUs.items.map(item => (
+          <a href={`/${aboutUs.slug}/${item.slug}`} class="nested">{[item.name, item.nameLine2].filter(Boolean).join(' ')}</a>
         ))}
       </>
-    ))}
+    )}
+    {ministries && (
+      <>
+        <div class="top-level">{ministries.name}</div>
+        {ministries.items.map(item => (
+          <a href={`/${ministries.slug}/${item.slug}`} class="nested">{[item.name, item.nameLine2].filter(Boolean).join(' ')}</a>
+        ))}
+      </>
+    )}
+    <a href="/upcoming-events" class="top-level">Upcoming Events</a>
+    {resources && (
+      <>
+        <div class="top-level">{resources.name}</div>
+        {resources.items.map(item => (
+          <a href={`/${resources.slug}/${item.slug}`} class="nested">{[item.name, item.nameLine2].filter(Boolean).join(' ')}</a>
+        ))}
+      </>
+    )}
     <a href="/songs" class="top-level">Songs</a>
-    <a href="/services/page/1" class="top-level">Service Archive</a>
+    <a href="/services/page/1" class="top-level">Sermon Archive</a>
     <div id="mobile-visit" class="top-level">
       Plan a Visit
     </div>
