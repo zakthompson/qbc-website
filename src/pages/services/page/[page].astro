@@ -11,6 +11,7 @@ interface Sermon {
   context: string;
   speaker: string;
   date: string;
+  manuscript?: string | null;
 }
 
 const PAGE_SIZE = 20;
@@ -47,6 +48,7 @@ const totalPages = Math.ceil(totalCount / PAGE_SIZE);
         context={sermon.context}
         speaker={sermon.speaker}
         date={sermon.date}
+        manuscript={sermon.manuscript}
       />
     ))
   }

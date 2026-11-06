@@ -1,5 +1,6 @@
 ---
 import { YouTube } from "@astro-community/astro-embed-youtube";
+import ManuscriptLink from "./ManuscriptLink.astro";
 
 interface Props {
   id: string;
@@ -7,6 +8,7 @@ interface Props {
   context: string;
   speaker: string;
   date: string;
+  manuscript?: string | null;
 }
 
 const dateOptions: object = {
@@ -15,7 +17,7 @@ const dateOptions: object = {
   day: "numeric",
 };
 
-const { id, title, context, speaker, date } = Astro.props;
+const { id, title, context, speaker, date, manuscript } = Astro.props;
 const formattedDate = new Date(date).toLocaleDateString(
   "en-US",
   dateOptions
@@ -105,6 +107,7 @@ const formattedDate = new Date(date).toLocaleDateString(
       <h5>{formattedDate}</h5>
       <h3>{title}</h3>
       <h4>{context} | {speaker}</h4>
+      <ManuscriptLink fileId={manuscript} title={title} />
     </div>
   </div>
 </div>
